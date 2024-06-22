@@ -19,6 +19,10 @@ class SendMessageChanelBot:
     Создание экземпляра класса:
         > bot = SendMessageChanelBot(api_id, api_hash)
     """
+    col_name_id_channel = config.COLUMN_ID_CHANEL
+    col_name_name_channel = config.COLUMN_NAME_CHANEL
+    col_name_tech_chanel = config.COLUMN_TECH_CHANEL
+
     def __init__(self, api_id: Optional[str] = None, api_hash: Optional[str] = None) -> NoReturn:
         """
         Инициализация объекта класса для управления ЮзерБотом.
@@ -34,7 +38,7 @@ class SendMessageChanelBot:
         self.api_id: Optional[str] = api_id
         self.api_hash: Optional[str] = api_hash
         if self.api_id is None or self.api_id is None:
-            # Если не переданны api_hash или api_id, то ошибка
+            # Если не переданы api_hash или api_id, то ошибка
             logger.error("Проверьте параметры api_hash, api_id.")
             raise ValueError
         self.db_name = config.DB_PATH  # база данных для сохранения каналов
@@ -84,8 +88,8 @@ class SendMessageChanelBot:
         """
         logger.info("Запуск проверки базы данных.")
         groups = self.db.run(SELECT_IDS, 'select')
-        self.tech_groups = {int(i['id_group']): i['name'] for i in groups if i['technic'] == 1}
-        groups_id_new = [int(i['id_group']) for i in groups if i['technic'] == 0]
+        self.tech_groups = {int(i[self.col_name_id_channel]): i[self.col_name_name_channel] for i in groups if i[self.col_name_tech_chanel] == 1}
+        groups_id_new = [int(i[self.col_name_id_channel]) for i in groups if i[self.col_name_tech_chanel] == 0]
         groups_id_old = list(self.dict_ids_handler.keys())
         delete_id = list(set(groups_id_old) - set(groups_id_new))
         add_id = list(set(groups_id_new) - set(groups_id_old))
