@@ -2,6 +2,7 @@
 ***
 This **__telegram-userbot__** forwards messages from some telegram-channels to other telegram-channels. 
 The bot begin creates table to DataBase (format SqLite) for storing telegram-channels. 
+For run bot need file __**config.py**__ with all parameters. 
 
 ### Technologies 
 
